@@ -181,11 +181,12 @@ Paulo Zava <br> Jessica Kubrusly
 <section id="construção-da-base-de-dados" class="slide level2 scrollable">
 <h2><strong>Construção da Base de Dados</strong></h2>
 <ol type="1">
-<li><p>Foram baixadas monografias publicadas antes de 2023 dos seguintes cursos: Estatística, Licenciatura em Matemática, Ciências Sociais, Medicina, áreas das Engenharias, Direito, Ciência da Computação, Geografia, Enfermagem, Turismo, Pedagogia, Licenciatura em Física e Licenciatura em Educação Física.</p></li>
-<li><p>A partir dos arquivos PDF, foram extraídas as introduções das monografias.</p></li>
+<li><p>Foi elaborado um script com os pacotes <em><code>httr</code></em> e <code>rvest</code>, de forma a acessar automaticamente o repositório institucional da UFF e baixar os arquivos em PDF das monografias publicadas antes de 2023.</p></li>
+<li><p>Foram baixados TCCs dos seguintes cursos: Estatística, Licenciatura em Matemática, Ciências Sociais, Medicina, áreas das Engenharias, Direito, Ciência da Computação, Geografia, Enfermagem, Turismo, Pedagogia, Licenciatura em Física e Licenciatura em Educação Física.</p></li>
+<li><p>A partir dos arquivos PDF, foram extraídos os titulos e as introduções das monografias.</p></li>
 <li><p>Utilizou-se um modelo de linguagem (Llama 3.1 8B), via API da Groq, para gerar introduções artificiais a partir do seguinte comando:</p>
 <p>“Escreva uma introdução para um trabalho de conclusão de curso de graduação no curso [i], cujo título do trabalho é título[i]. A introdução gerada deve conter entre 80% e 120% do número de caracteres do texto[i], considerando os espaços na contagem de caracteres. Não inclua, na sua resposta, o caractere # e o *.”</p></li>
-<li><p>A base foi dividida em conjuntos de treino e teste.</p></li>
+<li><p>A base final, com <strong>6330 linhas — cada linha referente a um TCC —</strong>, foi dividida em conjuntos de treino e teste.</p></li>
 </ol>
 </section>
 <section id="base-de-dados" class="slide level2">
@@ -255,13 +256,19 @@ Paulo Zava <br> Jessica Kubrusly
 </div>
 </div>
 </section>
-<section id="pré-processamento-textual" class="slide level2">
+<section id="pré-processamento-textual" class="slide level2 smaller scrollable">
 <h2><strong>Pré-processamento Textual</strong></h2>
-<p>As principais etapas utilizadas foram:</p>
+<p>Etapas iniciais da vetorização de texto:<br>
+“As escolas permanecem fechadas para reforma”</p>
 <ul>
-<li><strong>Tokenização:</strong> separação do texto em palavras (tokens);</li>
-<li><strong>Remoção de stop words:</strong> eliminação de palavras muito frequentes e com pouca informação semântica, como artigos e preposições;</li>
-<li><strong>Lematização:</strong> transformação de diferentes variações de uma palavra em uma representação única.</li>
+<li><p><strong>Texto em minúsculo</strong>:</p>
+<p>“as escolas permanecem fechadas para reforma.”</p></li>
+<li><p><strong>Tokenização:</strong> separação do texto em palavras (tokens);</p>
+<p>“as”- “escolas”- “permanecem”- “fechadas” -“para”- “reforma”</p></li>
+<li><p><strong>Remoção de stop words:</strong> eliminação de palavras muito frequentes e com pouca informação semântica, como artigos e preposições;</p>
+<p>“escolas”- “permanecem”- “fechadas” - “reforma”</p></li>
+<li><p><strong>Lematização:</strong> transformação de diferentes variações de uma palavra em uma representação única;</p>
+<p>“escola”- “permanecer”- “fechado” - “reforma”</p></li>
 </ul>
 </section>
 <section id="métodos-de-vetorização" class="slide level2 smaller scrollable">

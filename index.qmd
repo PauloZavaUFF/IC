@@ -50,15 +50,17 @@ format:
 
 ## **Construção da Base de Dados** {.scrollable}
 
-1.  Foram baixadas monografias publicadas antes de 2023 dos seguintes cursos: Estatística, Licenciatura em Matemática, Ciências Sociais, Medicina, áreas das Engenharias, Direito, Ciência da Computação, Geografia, Enfermagem, Turismo, Pedagogia, Licenciatura em Física e Licenciatura em Educação Física.
+1.  Foi elaborado um script com os pacotes *`httr`* e `rvest`, de forma a acessar automaticamente o repositório institucional da UFF e baixar os arquivos em PDF das monografias publicadas antes de 2023.
 
-2.  A partir dos arquivos PDF, foram extraídas as introduções das monografias.
+2.  Foram baixados TCCs dos seguintes cursos: Estatística, Licenciatura em Matemática, Ciências Sociais, Medicina, áreas das Engenharias, Direito, Ciência da Computação, Geografia, Enfermagem, Turismo, Pedagogia, Licenciatura em Física e Licenciatura em Educação Física.
 
-3.  Utilizou-se um modelo de linguagem (Llama 3.1 8B), via API da Groq, para gerar introduções artificiais a partir do seguinte comando:
+3.  A partir dos arquivos PDF, foram extraídos os titulos e as introduções das monografias.
+
+4.  Utilizou-se um modelo de linguagem (Llama 3.1 8B), via API da Groq, para gerar introduções artificiais a partir do seguinte comando:
 
     “Escreva uma introdução para um trabalho de conclusão de curso de graduação no curso \[i\], cujo título do trabalho é título\[i\]. A introdução gerada deve conter entre 80% e 120% do número de caracteres do texto\[i\], considerando os espaços na contagem de caracteres. Não inclua, na sua resposta, o caractere \# e o \*.”
 
-4.  A base foi dividida em conjuntos de treino e teste.
+5.  A base final, com **6330 linhas — cada linha referente a um TCC —**, foi dividida em conjuntos de treino e teste.
 
 ## Base de dados
 
@@ -96,13 +98,26 @@ Nesse contexto, a experiência da cidade de Cabo Frio, localizada no estado do R
 Foi assim que, entre os meses de outubro e novembro de 2017, uma grande movimentação política levou à manifestação popular em busca da permanência do ensino médio municipalizado. A manifestação, que ganhou destaque nacional e internacional, foi marcada por uma intensa mobilização social, que envolveu estudantes, professores, gestores escolares e comunidades locais comprometidas com a causa. A luta foi baseada nos argumentos da importância da educação pública e local para as comunidades, ressaltando não só a eficiência e eficácia na gestão, mas também a democratização dos processos políticos e sociais presentes e futuros na cidade.
 :::
 
-## **Pré-processamento Textual**
+## **Pré-processamento Textual**  {.smaller .scrollable}
 
-As principais etapas utilizadas foram:
+Etapas iniciais da vetorização de texto:\
+"As escolas permanecem fechadas para reforma"
+
+-   **Texto em minúsculo**:
+
+    "as escolas permanecem fechadas para reforma."
 
 -   **Tokenização:** separação do texto em palavras (tokens);
+
+    "as"- "escolas"- "permanecem "- "fechadas" -"para"- "reforma"
+
 -   **Remoção de stop words:** eliminação de palavras muito frequentes e com pouca informação semântica, como artigos e preposições;
--   **Lematização:** transformação de diferentes variações de uma palavra em uma representação única.
+
+    "escolas"- "permanecem "- "fechadas" - "reforma"
+
+-   **Lematização:** transformação de diferentes variações de uma palavra em uma representação única;
+
+    "escola"- "permanecer"- "fechado" - "reforma"
 
 ## **Métodos de Vetorização** {.smaller .scrollable}
 
